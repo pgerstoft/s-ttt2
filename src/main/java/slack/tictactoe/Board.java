@@ -16,13 +16,24 @@ public class Board {
     }
 
     public Board put(Player p, Square square) {
-        if (board[square.getY()][square.getY()] != null) {
+        if(square.getY() < 0 || square.getY() >= SIZE || square.getX() < 0 || square.getX() >= SIZE){
+            throw new IllegalArgumentException(square + " is out of bounds");
+        }
+        if (board[square.getX()][square.getY()] != null) {
             throw new IllegalArgumentException(square + " is not free!");
         }
 
         Player[][] clone = board.clone();
         clone[square.getX()][square.getY()] = p;
         return new Board(count + 1, clone);
+    }
+
+    public Player[][] getRawBoard(){
+        return board.clone();
+    }
+
+    public int getNumberOfOccupiedSquares(){
+        return count;
     }
 
     @Override

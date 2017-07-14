@@ -1,33 +1,35 @@
 package slack;
 
-import com.google.appengine.api.utils.SystemProperty;
+import com.google.gson.Gson;
+import slack.commands.Commands;
+import slack.slack.SlackMessage;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Properties;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
-@WebServlet(name = "HelloAppEngine", value = "/hello")
+@WebServlet(value = "/ttt")
 public class HelloWorld extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        Properties properties = System.getProperties();
+        SlackMessage slackMessage = new SlackMessage(new BufferedReader(new InputStreamReader(request.getInputStream())).lines().collect(Collectors.toList()));
+
+        String command = slackMessage.getText().split(" ")[0];
+
+        Commands commands = Commands.fromString(command);
+
+
 
         response.setContentType("text/plain");
-        response.getWriter().println("Hello App Engine - Standard using "
-                + SystemProperty.version.get() + " Java " + properties.get("java.specification.version"));
-
-    }
-
-    public static String getInfo() {
-        return "Version: " + System.getProperty("java.version")
-                + " OS: " + System.getProperty("os.name")
-                + " User: " + System.getProperty("user.name");
+        response.getWriter().println(new Gson().toJson(commands.getSlackCommand().apply(slackMessage)));
     }
 
 }
