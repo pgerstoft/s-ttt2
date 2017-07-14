@@ -1,6 +1,7 @@
 package slack.slack;
 
 
+import java.util.Collections;
 import java.util.List;
 
 public class SlackResponse {
@@ -9,7 +10,8 @@ public class SlackResponse {
     private String text;
     private List<Attachment> attachments;
 
-    public SlackResponse(ResponseType responseType, String text, List<Attachment> attachments){
+
+    public SlackResponse(ResponseType responseType, String text, List<Attachment> attachments) {
         this.response_type = responseType;
         this.text = text;
         this.attachments = attachments;
@@ -20,8 +22,10 @@ public class SlackResponse {
         ephemeral;
     }
 
-    public static class Attachment{
+    public static class Attachment {
         private String text;
+
+        private List<String> mrkdwn_in = Collections.singletonList("text");
 
         public Attachment(String text) {
             this.text = text;

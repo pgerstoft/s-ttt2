@@ -1,4 +1,4 @@
-package slack.commands;
+package slack.slack.commands;
 
 import slack.slack.SlackMessage;
 import slack.slack.SlackResponse;
@@ -6,6 +6,9 @@ import slack.slack.SlackResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Lists all the available commands
+ */
 public class HelpCommand implements SlackCommand {
 
     public SlackResponse apply(SlackMessage message){

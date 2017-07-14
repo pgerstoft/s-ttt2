@@ -1,4 +1,4 @@
-package slack.commands;
+package slack.slack.commands;
 
 import slack.slack.SlackMessage;
 import slack.slack.SlackResponse;

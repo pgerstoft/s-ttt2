@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Computes the current state of the tic tac toe game
+ */
 public class StateCalculator {
 
     private final Board board;

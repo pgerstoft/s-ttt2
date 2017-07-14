@@ -8,17 +8,24 @@ public class EscapedEntity {
     //<@U012ABCDEF|ernie>
     private static final Pattern ESCAPED_USER = Pattern.compile("<@(.*)\\|(.*)>");
 
-    public static SlackUser getSlackUser(String escapedEntity){
-        return new SlackUser(getUserId(escapedEntity), getUserName(escapedEntity));
+    /**
+     * Parse the user from an escaped entity
+     */
+    public static SlackUser getSlackUser(String escapedEntity) {
+        try {
+            return new SlackUser(getUserId(escapedEntity), getUserName(escapedEntity));
+        } catch (RuntimeException e) {
+            throw new SlackException("Please provide a valid username!");
+        }
     }
 
-    static String getUserId(String escapedUser){
+    static String getUserId(String escapedUser) {
         Matcher matcher = ESCAPED_USER.matcher(escapedUser);
         matcher.find();
         return String.valueOf(matcher.group(1));
     }
 
-    static String getUserName(String escapedUser){
+    static String getUserName(String escapedUser) {
         Matcher matcher = ESCAPED_USER.matcher(escapedUser);
         matcher.find();
         return "@" + matcher.group(2);

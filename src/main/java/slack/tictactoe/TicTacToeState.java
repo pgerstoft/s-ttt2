@@ -1,5 +1,8 @@
 package slack.tictactoe;
 
+/**
+ * The tic tac toe states
+ */
 public enum TicTacToeState {
 
     PLAYING,

@@ -1,8 +1,8 @@
 package slack.slack;
 
 public class SlackUser {
-   private final String userId;
-   private final String userName;
+    private final String userId;
+    private final String userName;
 
     public SlackUser(String userId, String userName) {
         this.userId = userId;

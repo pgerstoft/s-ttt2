@@ -1,5 +1,8 @@
 package slack.tictactoe;
 
+/**
+ * Represents the status of the game
+ */
 public class GameStatus {
 
     private final Board board;

@@ -1,7 +1,11 @@
-package slack.commands;
+package slack.slack.commands;
 
+import slack.slack.SlackException;
 import slack.slack.*;
 
+/**
+ * Starts a tic tac toe game
+ */
 public class StartCommand implements SlackCommand {
 
     @Override
@@ -11,9 +15,9 @@ public class StartCommand implements SlackCommand {
         SlackUser challenged = getChallengedUser(message.getText());
 
         SlackTicTacToe slackTicTacToe = new SlackTicTacToe(user, challenged);
-        SlackChannels.SLACK_CHANNELS.create(channel, slackTicTacToe);
+        SlackChannelGames.SLACK_CHANNELS.create(channel, slackTicTacToe);
 
-        String mainText = "Game started between " + user.getUserName() + " and " + challenged.getUserName() + ";";
+        String mainText = "Game started between " + user.getUserName() + " and " + challenged.getUserName() + ".";
 
         return new SlackResponse(SlackResponse.ResponseType.channel, mainText,
                 GameStatusAttachment.getAttachments(slackTicTacToe.getGameStatus()));
@@ -22,13 +26,14 @@ public class StartCommand implements SlackCommand {
     private SlackUser getChallengedUser(String text){
         String[] split = text.split(" ");
         if(split.length == 1){
-            throw new IllegalArgumentException("Specify a user");
-        }
-        if(split.length > 2){
-            throw new IllegalArgumentException("Only one user allowed");
+            throw new SlackException("Specify a user");
         }
 
-        return EscapedEntity.getSlackUser(text);
+        if(split.length > 2){
+            throw new SlackException("Only one user allowed");
+        }
+
+        return EscapedEntity.getSlackUser(split[1]);
     }
 
 }

@@ -14,6 +14,10 @@ public class TicTacToeGame {
         return board;
     }
 
+    public boolean isAvailable(Square square){
+        return board.isAvailable(square);
+    }
+
     public void mark(Square square){
         board = board.put(currentTurn, square);
         if(currentTurn == Player.X){

@@ -1,9 +1,13 @@
-package slack.commands;
+package slack.slack.commands;
 
+import slack.slack.SlackException;
 import slack.slack.*;
 import slack.tictactoe.GameStatus;
 import slack.tictactoe.Square;
 
+/**
+ * Makes a move in a tic tac toe game
+ */
 public class MoveCommand implements SlackCommand {
 
     @Override
@@ -11,15 +15,15 @@ public class MoveCommand implements SlackCommand {
         SlackUser slackUser = message.getSlackUser();
         String channel = message.getChannelId();
 
-        SlackTicTacToe game = SlackChannels.SLACK_CHANNELS.getGame(channel);
+        SlackTicTacToe game = SlackChannelGames.SLACK_CHANNELS.getGame(channel);
         if(game == null){
-            throw new IllegalStateException("No game started");
+            throw new SlackException("No game started");
         }
 
         GameStatus gameStatus = game.play(slackUser, getSquare(message.getText()));
 
         if(gameStatus.getState().isTerminal()){
-            SlackChannels.SLACK_CHANNELS.clear(channel);
+            SlackChannelGames.SLACK_CHANNELS.clear(channel);
         }
 
         String mainText = slackUser.getUserName() + " moved!";
@@ -31,10 +35,14 @@ public class MoveCommand implements SlackCommand {
     private Square getSquare(String text){
         String[] split = text.split(" ");
 
-        if(split.length == 3){
-            throw new IllegalArgumentException("Specify a coordinates");
+        if(split.length != 3){
+            throw new SlackException("Please specify coordinates");
         }
 
-        return new Square(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+        try {
+            return new Square(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+        }catch (IllegalArgumentException e){
+            throw new SlackException(e.getMessage());
+        }
     }
 }

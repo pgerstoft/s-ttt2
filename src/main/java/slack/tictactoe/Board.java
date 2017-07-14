@@ -1,5 +1,10 @@
 package slack.tictactoe;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+/**
+ * An immutable class that represents a board in Tic Tac Toe
+ */
 public class Board {
     public static final int SIZE = 3;
 
@@ -16,23 +21,23 @@ public class Board {
     }
 
     public Board put(Player p, Square square) {
-        if(square.getY() < 0 || square.getY() >= SIZE || square.getX() < 0 || square.getX() >= SIZE){
-            throw new IllegalArgumentException(square + " is out of bounds");
-        }
-        if (board[square.getX()][square.getY()] != null) {
-            throw new IllegalArgumentException(square + " is not free!");
-        }
+        checkArgument(isAvailable(square), square + " is not free!");
 
         Player[][] clone = board.clone();
         clone[square.getX()][square.getY()] = p;
         return new Board(count + 1, clone);
     }
 
-    public Player[][] getRawBoard(){
+
+    public boolean isAvailable(Square square) {
+        return board[square.getX()][square.getY()] == null;
+    }
+
+    public Player[][] getRawBoard() {
         return board.clone();
     }
 
-    public int getNumberOfOccupiedSquares(){
+    public int getNumberOfOccupiedSquares() {
         return count;
     }
 
@@ -44,7 +49,9 @@ public class Board {
 
             if (r != 0) {
                 builder.append(System.lineSeparator());
-                for (int i = 0; i < (3 + 1 + 3 + 1 + 3); i++) {
+                //there are 3 characters per square and SIZE-1 pipes
+                int lineLength = SIZE*3 + (SIZE - 1);
+                for (int i = 0; i < lineLength; i++) {
                     builder.append("-");
                 }
                 builder.append(System.lineSeparator());
