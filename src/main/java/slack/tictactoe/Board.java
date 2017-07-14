@@ -15,9 +15,9 @@ public class Board {
         this.board = board;
     }
 
-    public Board put(Player p, Square square) throws OccupiedSquareException {
+    public Board put(Player p, Square square) {
         if (board[square.getY()][square.getY()] != null) {
-            throw new OccupiedSquareException();
+            throw new IllegalArgumentException(square + " is not free!");
         }
 
         Player[][] clone = board.clone();

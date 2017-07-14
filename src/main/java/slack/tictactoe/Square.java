@@ -20,4 +20,8 @@ public class Square {
     public int getY() {
         return y;
     }
+
+    public String toString() {
+        return "(" + x + "," + y + ")";
+    }
 }

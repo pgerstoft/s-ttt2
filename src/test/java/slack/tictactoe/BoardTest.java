@@ -19,7 +19,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testBoardWithPiece() throws OccupiedSquareException {
+    public void testBoardWithPiece() {
         Board board = new Board().put(Player.O, new Square(0, 0));
         String actual = " O |   |   \n" +
                 "-----------\n" +
