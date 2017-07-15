@@ -1,0 +1,9 @@
+Hello!
+
+To get started try "/ttt help".
+
+There are two parts to this project. A tic tac toe portion that has no knowledge of Slack and a Slack portion.
+
+The Slack portion has a set of Commands, models (like a SlackUser) and the Global TicTacToe Slack state (SlackChannelGames).
+
+This is hosted on GAE.

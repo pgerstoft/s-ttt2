@@ -100,7 +100,7 @@
                 <artifactId>appengine-maven-plugin</artifactId>
                 <version>1.9.54</version>
                 <configuration>
-                    <appId>slack-ttt-173620</appId>
+                    <appId>project-ttt-173620</appId>
                     <version>1</version>
                     <fullScanSeconds>1</fullScanSeconds>
                 </configuration>
